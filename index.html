@@ -1,501 +1,125 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- DW6 -->
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-	<title>3Då…ƒç´ å‘¨æœŸè¡¨</title>
-
-	<script>
-		function fangdajing() {
-			var sc = document.creatElement('style');
-			sc.innerHTML="";
-		}
-	</script>
-	<script src="js/three.min.js"></script>
-	<script src="js/tween.min.js"></script>
-	<script src="js/TrackballControls.js"></script>
-	<script src="js/CSS3DRenderer.js"></script>
-
-	<style>
-		html,
-		body {
-			height: 100%;
-		}
-
-		body {
-			background-color: #000000;
-			margin: 0;
-			font-family: Helvetica, sans-serif;
-		;
-			overflow: hidden;
-		}
-
-		a {
-			color: #ffffff;
-		}
-
-		#info {
-			position: absolute;
-			width: 100%;
-			color: #ffffff;
-			padding: 5px;
-			font-family: Monospace;
-			font-size: 13px;
-			font-weight: bold;
-			text-align: center;
-			z-index: 1;
-		}
-
-		#menu {
-			position: absolute;
-			bottom: 20px;
-			width: 100%;
-			text-align: center;
-			font-family: verdana, Tahoma, Arial, Hei, "Microsoft Yahei", SimHei;
-		}
-
-		.element {
-			width: 120px;
-			height: 160px;
-			box-shadow: 0px 0px 12px rgba(0, 255, 255, 0.5);
-			border: 1px solid rgba(127, 255, 255, 0.25);
-			text-align: center;
-			cursor: default;
-		}
-
-
-		.element .number {
-			position: absolute;
-			top: 20px;
-			right: 20px;
-			font-size: 12px;
-			color: rgba(127, 255, 255, 0.75);
-		}
-
-		.element .symbol {
-			position: absolute;
-			top: 40px;
-			left: 0px;
-			right: 0px;
-			font-size: 60px;
-			font-weight: bold;
-			color: rgba(255, 255, 255, 0.75);
-			text-shadow: 0 0 10px rgba(0, 255, 255, 0.95);
-		}
-
-		.element .details {
-			position: absolute;
-			bottom: 15px;
-			left: 0px;
-			right: 0px;
-			font-size: 12px;
-			color: rgba(127, 255, 255, 0.75);
-		}
-
-		button {
-			color: rgba(127, 255, 255, 0.75);
-			background: transparent;
-			outline: 1px solid rgba(127, 255, 255, 0.75);
-			border: 0px;
-			padding: 5px 10px;
-			cursor: pointer;
-		}
-
-		button:hover {
-			background-color: rgba(0, 255, 255, 0.5);
-		}
-
-		button:active {
-			color: #000000;
-			background-color: rgba(0, 255, 255, 0.75);
-		}
-	</style>
+<!-- Copyright 2005 Macromedia, Inc. All rights reserved. -->
+<title>ÎÒµÄÍøÒ³</title>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<link rel="stylesheet" href="mm_training.css" type="text/css" />
+<style type="text/css">
+<!--
+.STYLE2 {color: #3300CC}
+body,td,th {
+	font-family: ºÚÌå;
+	font-weight: bold;
+}
+.STYLE3 {
+	color: #0000FF;
+	font-weight: bold;
+	font-style: italic;
+	font-size: 48px;
+}
+.STYLE4 {
+	font-size: 36px;
+	font-weight: bold;
+}
+.STYLE5 {font-size: 16px}
+.STYLE6 {color: #0000FF}
+.STYLE7 {font-size: 16px; color: #0000FF; }
+.STYLE8 {font-size: 16px; color: #000000; }
+-->
+</style>
 </head>
-<body>
-<script src="js/three.min.js"></script>
-<script src="js/tween.min.js"></script>
-<script src="js/TrackballControls.js"></script>
-<script src="js/CSS3DRenderer.js"></script>
-
-<div id="container"></div>
-<div id="info">3D-å…ƒç´ å‘¨æœŸè¡¨</div>
-<div id="menu">
-	<button id="table">è¡¨é¢</button>
-	<button id="sphere">çƒä½“</button>
-	<button id="helix">èºæ—‹</button>
-	<button id="grid">ç½‘æ ¼</button>
-</div>
-
-<script>
-	//è¿™é‡Œæ˜¯å®šä¹‰tableå…ƒç´ æ”¾å…¥å±•ç¤ºçš„å†…å®¹,åœ¨åé¢å†å¯¹tableè¿›è¡Œè§£æ
-	var table = [
-		"H", "é£ç¿”çš„ä¼é¹…", "1.00794", 1, 1,
-		"He", "Helium", "4.002602", 18, 1,
-		"Li", "Lithium", "#6.941", 1, 2,
-		"Be", "Beryllium", "9.012182", 2, 2,
-		"B", "Boron", "#10.811", 13, 2,
-		"C", "Carbon", "#12.0107", 14, 2,
-		"N", "Nitrogen", "#14.0067", 15, 2,
-		"O", "Oxygen", "#15.9994", 16, 2,
-		"F", "Fluorine", "18.9984032", 17, 2,
-		"Ne", "Neon", "#20.1797", 18, 2,
-		"Na", "Sodium", "22.98976...", 1, 3,
-		"Mg", "Magnesium", "#24.305", 2, 3,
-		"Al", "Aluminium", "26.9815386", 13, 3,
-		"Si", "Silicon", "#28.0855", 14, 3,
-		"P", "Phosphorus", "30.973762", 15, 3,
-		"S", "Sulfur", "#32.065", 16, 3,
-		"Cl", "Chlorine", "#35.453", 17, 3,
-		"Ar", "Argon", "#39.948", 18, 3,
-		"K", "Potassium", "#39.948", 1, 4,
-		"Ca", "Calcium", "#40.078", 2, 4,
-		"Sc", "Scandium", "44.955912", 3, 4,
-		"Ti", "Titanium", "#47.867", 4, 4,
-		"V", "Vanadium", "#50.9415", 5, 4,
-		"Cr", "Chromium", "#51.9961", 6, 4,
-		"Mn", "Manganese", "54.938045", 7, 4,
-		"Fe", "Iron", "#55.845", 8, 4,
-		"Co", "Cobalt", "58.933195", 9, 4,
-		"Ni", "Nickel", "#58.6934", 10, 4,
-		"Cu", "Copper", "#63.546", 11, 4,
-		"Zn", "Zinc", "#65.38", 12, 4,
-		"Ga", "Gallium", "#69.723", 13, 4,
-		"Ge", "Germanium", "#72.63", 14, 4,
-		"As", "Arsenic", "#74.9216", 15, 4,
-		"Se", "Selenium", "#78.96", 16, 4,
-		"Br", "Bromine", "#79.904", 17, 4,
-		"Kr", "Krypton", "#83.798", 18, 4,
-		"Rb", "Rubidium", "#85.4678", 1, 5,
-		"Sr", "Strontium", "#87.62", 2, 5,
-		"Y", "Yttrium", "88.90585", 3, 5,
-		"Zr", "Zirconium", "#91.224", 4, 5,
-		"Nb", "Niobium", "92.90628", 5, 5,
-		"Mo", "Molybdenum", "#95.96", 6, 5,
-		"Tc", "Technetium", "(98)", 7, 5,
-		"Ru", "Ruthenium", "#101.07", 8, 5,
-		"Rh", "Rhodium", "#102.9055", 9, 5,
-		"Pd", "Palladium", "#106.42", 10, 5,
-		"Ag", "Silver", "#107.8682", 11, 5,
-		"Cd", "Cadmium", "#112.411", 12, 5,
-		"In", "Indium", "#114.818", 13, 5,
-		"Sn", "Tin", "#118.71", 14, 5,
-		"Sb", "Antimony", "#121.76", 15, 5,
-		"Te", "Tellurium", "127.6", 16, 5,
-		"I", "Iodine", "126.90447", 17, 5,
-		"Xe", "Xenon", "#131.293", 18, 5,
-		"Cs", "Caesium", "#132.9054", 1, 6,
-		"Ba", "Barium", "#132.9054", 2, 6,
-		"La", "Lanthanum", "138.90547", 4, 9,
-		"Ce", "Cerium", "#140.116", 5, 9,
-		"Pr", "Praseodymium", "140.90765", 6, 9,
-		"Nd", "Neodymium", "#144.242", 7, 9,
-		"Pm", "Promethium", "(145)", 8, 9,
-		"Sm", "Samarium", "#150.36", 9, 9,
-		"Eu", "Europium", "#151.964", 10, 9,
-		"Gd", "Gadolinium", "#157.25", 11, 9,
-		"Tb", "Terbium", "158.92535", 12, 9,
-		"Dy", "Dysprosium", "162.5", 13, 9,
-		"Ho", "Holmium", "164.93032", 14, 9,
-		"Er", "Erbium", "#167.259", 15, 9,
-		"Tm", "Thulium", "168.93421", 16, 9,
-		"Yb", "Ytterbium", "#173.054", 17, 9,
-		"Lu", "Lutetium", "#174.9668", 18, 9,
-		"Hf", "Hafnium", "#178.49", 4, 6,
-		"Ta", "Tantalum", "180.94788", 5, 6,
-		"W", "Tungsten", "#183.84", 6, 6,
-		"Re", "Rhenium", "#186.207", 7, 6,
-		"Os", "Osmium", "#190.23", 8, 6,
-		"Ir", "Iridium", "#192.217", 9, 6,
-		"Pt", "Platinum", "#195.084", 10, 6,
-		"Au", "Gold", "196.966569", 11, 6,
-		"Hg", "Mercury", "#200.59", 12, 6,
-		"Tl", "Thallium", "#204.3833", 13, 6,
-		"Pb", "Lead", "207.2", 14, 6,
-		"Bi", "Bismuth", "#208.9804", 15, 6,
-		"Po", "Polonium", "(209)", 16, 6,
-		"At", "Astatine", "(210)", 17, 6,
-		"Rn", "Radon", "(222)", 18, 6,
-		"Fr", "Francium", "(223)", 1, 7,
-		"Ra", "Radium", "(226)", 2, 7,
-		"Ac", "Actinium", "(227)", 4, 10,
-		"Th", "Thorium", "232.03806", 5, 10,
-		"Pa", "Protactinium", "#231.0588", 6, 10,
-		"U", "Uranium", "238.02891", 7, 10,
-		"Np", "Neptunium", "(237)", 8, 10,
-		"Pu", "Plutonium", "(244)", 9, 10,
-		"Am", "Americium", "(243)", 10, 10,
-		"Cm", "Curium", "(247)", 11, 10,
-		"Bk", "Berkelium", "(247)", 12, 10,
-		"Cf", "Californium", "(251)", 13, 10,
-		"Es", "Einstenium", "(252)", 14, 10,
-		"Fm", "Fermium", "(257)", 15, 10,
-		"Md", "Mendelevium", "(258)", 16, 10,
-		"No", "Nobelium", "(259)", 17, 10,
-		"Lr", "Lawrencium", "(262)", 18, 10,
-		"Rf", "Rutherfordium", "(267)", 4, 7,
-		"Db", "Dubnium", "(268)", 5, 7,
-		"Sg", "Seaborgium", "(271)", 6, 7,
-		"Bh", "Bohrium", "(272)", 7, 7,
-		"Hs", "Hassium", "(270)", 8, 7,
-		"Mt", "Meitnerium", "(276)", 9, 7,
-		"Ds", "Darmstadium", "(281)", 10, 7,
-		"Rg", "Roentgenium", "(280)", 11, 7,
-		"Cn", "Copernicium", "(285)", 12, 7,
-		"Uut", "Unutrium", "(284)", 13, 7,
-		"Fl", "Flerovium", "(289)", 14, 7,
-		"Uup", "Ununpentium", "(288)", 15, 7,
-		"Lv", "Livermorium", "(293)", 16, 7,
-		"Uus", "Ununseptium", "(294)", 17, 7,
-		"Uuo", "Ununoctium", "(294)", 18, 7
-	];
-
-	var camera, scene, renderer;
-	var controls;
-
-	var objects = [];
-	var targets = {
-		table: [],
-		sphere: [],
-		helix: [],
-		grid: []
-	};
-
-	init();
-	animate();
-
-	function init() {
-
-		camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
-		//é€è§†æŠ•å½±ç›¸æœº,PerspectiveCamera(fov, aspect, near, far)
-		// - fov å¯è§†è§’åº¦
-		// - aspect ä¸ºwidth/height,é€šå¸¸è®¾ç½®ä¸ºcanvaså…ƒç´ çš„é«˜å®½æ¯”ã€‚
-		// - nearè¿‘ç«¯è·ç¦»
-		// - farè¿œç«¯è·ç¦»
-		//åªæœ‰ç¦»ç›¸æœºçš„è·ç¦»å¤§äºnearå€¼ï¼Œå°äºfarå€¼ï¼Œä¸”åœ¨ç›¸æœºçš„å¯è§†è§’åº¦ä¹‹å†…ï¼Œæ‰èƒ½è¢«ç›¸æœºæŠ•å½±åˆ°ã€‚
-
-		camera.position.z = 3000;
-		//3000æ˜¯cameraçš„ç«–ç›´é«˜åº¦,å¯ä»¥ç†è§£ä¸ºå€¼è¶Šå¤§å¯è§åº¦è¶Šå¤§
-
-		scene = new THREE.Scene();
-
-
-		// table è¡¨æ ¼
-		//è¿™é‡Œæ˜¯å¯¹tableè¡¨æ ¼é‡Œçš„æ•°æ®è¿›è¡Œè§£æ,ç„¶ååˆ†é…åˆ°æ¯ä¸ªdivä¸­æ„æˆæ¨¡å—
-		for (var i = 0; i < table.length; i += 5) {
-
-			var element = document.createElement('div');
-			element.className = 'element';
-			element.style.backgroundColor = 'rgba(0,127,127,' + (Math.random() * 0.5 + 0.25) + ')';
-
-			var number = document.createElement('div');
-			number.className = 'number';
-			number.textContent = (i / 5) + 1;
-			element.appendChild(number);
-
-			var symbol = document.createElement('div');
-			symbol.className = 'symbol';
-			symbol.textContent = table[i];
-			element.appendChild(symbol);
-
-			var details = document.createElement('div');
-			details.className = 'details';
-			details.innerHTML = table[i + 1] + '<br>' + table[i + 2];
-			element.appendChild(details);
-
-			var object = new THREE.CSS3DObject(element);
-			object.position.x = Math.random() * 4000 - 2000;
-			object.position.y = Math.random() * 4000 - 2000;
-			object.position.z = Math.random() * 4000 - 2000;
-			scene.add(object);
-
-			objects.push(object);
-
-
-
-			var object = new THREE.Object3D();
-			object.position.x = (table[i + 3] * 140) - 1330;
-			object.position.y = -(table[i + 4] * 180) + 990;
-
-			targets.table.push(object);
-
-		}
-
-		// sphere çƒ
-
-		var vector = new THREE.Vector3();
-
-		for (var i = 0, l = objects.length; i < l; i++) {
-
-			var phi = Math.acos(-1 + (2 * i) / l);
-			var theta = Math.sqrt(l * Math.PI) * phi;
-
-			var object = new THREE.Object3D();
-
-			object.position.x = 800 * Math.cos(theta) * Math.sin(phi);
-			object.position.y = 800 * Math.sin(theta) * Math.sin(phi);
-			object.position.z = 800 * Math.cos(phi);
-
-			vector.copy(object.position).multiplyScalar(2);
-
-			object.lookAt(vector);
-
-			targets.sphere.push(object);
-
-		}
-
-		// helix èºæ—‹
-
-		var vector = new THREE.Vector3();
-
-		for (var i = 0, l = objects.length; i < l; i++) {
-
-			var phi = i * 0.175 + Math.PI;
-
-			var object = new THREE.Object3D();
-
-			object.position.x = 900 * Math.sin(phi);
-			object.position.y = -(i * 8) + 450;
-			object.position.z = 900 * Math.cos(phi);
-
-			vector.x = object.position.x * 2;
-			vector.y = object.position.y;
-			vector.z = object.position.z * 2;
-
-			object.lookAt(vector);
-
-			targets.helix.push(object);
-
-		}
-
-		// grid ç½‘æ ¼
-
-		for (var i = 0; i < objects.length; i++) {
-
-			var object = new THREE.Object3D();
-
-			object.position.x = ((i % 5) * 400) - 800;
-			object.position.y = (-(Math.floor(i / 5) % 5) * 400) + 800;
-			object.position.z = (Math.floor(i / 25)) * 1000 - 2000;
-
-			targets.grid.push(object);
-
-		}
-
-		//
-
-		renderer = new THREE.CSS3DRenderer();
-		renderer.setSize(window.innerWidth, window.innerHeight);
-		renderer.domElement.style.position = 'absolute';
-		document.getElementById('container').appendChild(renderer.domElement);
-
-		//
-
-		controls = new THREE.TrackballControls(camera, renderer.domElement);
-		controls.rotateSpeed = 0.5; //æ—‹è½¬é€Ÿåº¦
-		controls.minDistance = 500; //æœ€å°è·ç¦»
-		controls.maxDistance = 10000; //æœ€å¤§è·ç¦»
-		controls.addEventListener('change', render);
-
-		var button = document.getElementById('table');
-		button.addEventListener('click', function(event) {
-
-			transform(targets.table, 2000); //å±•ç¤ºè¡¨æ ¼
-
-		}, false);
-
-		var button = document.getElementById('sphere');
-		button.addEventListener('click', function(event) {
-
-			transform(targets.sphere, 2000); //å±•ç¤ºçƒ
-
-		}, false);
-
-		var button = document.getElementById('helix');
-		button.addEventListener('click', function(event) {
-
-			transform(targets.helix, 2000); //å±•ç¤ºèºæ—‹
-
-		}, false);
-
-		var button = document.getElementById('grid');
-		button.addEventListener('click', function(event) {
-
-			transform(targets.grid, 2000); //å±•ç¤ºç½‘æ ¼
-
-		}, false);
-
-		transform(targets.table, 5000);
-
-		//
-
-		window.addEventListener('resize', onWindowResize, false);
-
-	}
-
-
-	function transform(targets, duration) {
-		//targetså¯¹è±¡,durationæŒç»­æ—¶é—´
-
-		TWEEN.removeAll();
-
-		for (var i = 0; i < objects.length; i++) {
-
-			var object = objects[i];
-			var target = targets[i];
-
-			new TWEEN.Tween(object.position)
-					.to({
-						x: target.position.x,
-						y: target.position.y,
-						z: target.position.z
-					}, Math.random() * duration + duration)
-					.easing(TWEEN.Easing.Exponential.InOut)
-					.start();
-
-			new TWEEN.Tween(object.rotation)
-					.to({
-						x: target.rotation.x,
-						y: target.rotation.y,
-						z: target.rotation.z
-					}, Math.random() * duration + duration)
-					.easing(TWEEN.Easing.Exponential.InOut)
-					.start();
-
-		}
-
-		new TWEEN.Tween(this)
-				.to({}, duration * 2)
-				.onUpdate(render)
-				.start();
-
-	}
-
-	function onWindowResize() {
-
-		camera.aspect = window.innerWidth / window.innerHeight;
-		camera.updateProjectionMatrix();
-
-		renderer.setSize(window.innerWidth, window.innerHeight);
-
-		render();
-
-	}
-
-	function animate() {
-
-		requestAnimationFrame(animate);
-
-		TWEEN.update();
-
-		controls.update();
-
-	}
-
-	function render() {
-
-		renderer.render(scene, camera);
-
-	}
-</script>
+<body bgcolor="#64748B">
+<table width="100%" height="832" border="0" cellpadding="0" cellspacing="0">
+	<tr bgcolor="#26354A">
+	<td width="61" nowrap="nowrap" bgcolor="#663300"><img src="mm_spacer.gif" alt="" width="15" height="1" border="0" /></td>
+	<td height="80" colspan="3" nowrap="nowrap" bgcolor="#CCFF00" class="logo"><span class="STYLE3">ñöÌı¸£Òô</span><span class="STYLE2">_»¶Ó­ÄúµÄµ½À´£¡</span></td>
+	<td width="42" bgcolor="#336600">&nbsp;</td>
+	<td width="15" bgcolor="#336600">&nbsp;</td>
+	</tr>
+
+	<tr bgcolor="#FF6600">
+	<td colspan="6"><img src="mm_spacer.gif" alt="" width="1" height="4" border="0" /></td>
+	</tr>
+
+	<tr bgcolor="#D3DCE6">
+	<td colspan="6"><img src="mm_spacer.gif" alt="" width="1" height="1" border="0" /></td>
+	</tr>
+
+	<tr bgcolor="#FFCC00">
+	<td width="61" nowrap="nowrap">&nbsp;</td>
+	<td colspan="3" height="24">
+	<table width="441" border="0" cellpadding="0" cellspacing="0" id="navigation">
+        <tr>
+          <td width="84" align="center" nowrap="nowrap" class="navText"><a href="shenyin_fj/´´ÊÀ¼Í1-10.mp3">µÚ1-10</a></td>
+          <td width="86" align="center" nowrap="nowrap" class="navText"><a href="shenyin_fj/´´ÊÀ¼Í11-20.mp3">µÚ11-20</a></td>
+          <td width="83" align="center" nowrap="nowrap" class="navText"><a href="shenyin_fj/´´ÊÀ¼Í21-30.mp3">µÚ21-30</a></td>
+          <td width="87" align="center" nowrap="nowrap" class="navText"><a href="shenyin_fj/´´ÊÀ¼Ç31-40.mp3">µÚ31-40</a></td>
+          <td width="101" align="center" nowrap="nowrap" class="navText"><a href="shenyin_fj/´´ÊÀ¼Ç41-50.mp3">µÚ41-50</a></td>
+        </tr>
+      </table>	</td>
+	<td width="42">&nbsp;</td>
+	<td width="15">&nbsp;</td>
+	</tr>
+
+	<tr bgcolor="#D3DCE6">
+	<td colspan="6"><img src="mm_spacer.gif" alt="" width="1" height="1" border="0" /></td>
+	</tr>
+
+	<tr bgcolor="#FF6600">
+	<td colspan="6"><img src="mm_spacer.gif" alt="" width="1" height="4" border="0" /></td>
+	</tr>
+
+	<tr bgcolor="#D3DCE6">
+	<td height="652" colspan="2" valign="top" bgcolor="#D3DCE6"><img src="ys01.jpg" width="268" height="238" /><br />
+	<table border="0" cellspacing="0" cellpadding="0" width="230">
+		<tr>
+		<td width="230" class="sidebarText" id="padding"><span class="STYLE6"><a href="javascript:;">ÁªÏµÎÒÃÇ&gt;</a><br />
+		µç×ÓÓÊ¼şµØÖ·</span><br />
+
+		&nbsp;<br />		</td>
+		</tr>
+	</table>	</td>
+	<td width="50" valign="top"><img src="mm_spacer.gif" alt="" width="50" height="1" border="0" /></td>
+	<td width="651" valign="top" bgcolor="#D3DCE6"><br />
+	<br />
+	<table border="0" cellspacing="0" cellpadding="0" width="646">
+		<tr>
+		<td width="646" class="pageName"><p class="STYLE4"> ÎÒÃÇ»¶Ó­ÄúÀ´ñöÌı¸£Òô</p></td>
+		</tr>
+
+		<tr>
+		<td height="323" class="bodyText">
+		<p class="STYLE8">    ¾´ÇëñöÌı´´ÊÀ¼ÍµÚÒ»µ½µÚÎåÊ®ÕÂ</p>
+		<p class="STYLE7"><a href="shenyin/1.mp3" class="STYLE6">µÚÒ»ÕÂ</a> <a href="shenyin/2.mp3" class="STYLE6">µÚ¶şÕÂ</a> <a href="shenyin/3.mp3" class="STYLE6">µÚÈıÕÂ</a> <a href="shenyin/4.mp3" class="STYLE6">µÚËÄÕÂ</a> <a href="shenyin/5.mp3" class="STYLE6">µÚÎåÕÂ</a> <a href="shenyin/6.mp3" class="STYLE6">µÚÁùÕÂ</a> <a href="shenyin/7.mp3" class="STYLE6">µÚÆßÕÂ</a> <a href="shenyin/8.mp3" class="STYLE6">µÚ°ËÕÂ</a><a href="shenyin/9.mp3" class="STYLE6"> µÚ¾ÅÕÂ</a> <a href="shenyin/10.mp3" class="STYLE6">µÚÊ®ÕÂ</a></p>
+		<p class="STYLE7"><a href="shenyin/11.mp3" class="STYLE6">µÚÊ®Ò»ÕÂ</a><a href="shenyin/12.mp3" class="STYLE6"> µÚÊ®¶şÕÂ</a> <a href="shenyin/13.mp3" class="STYLE6">µÚÊ®ÈıÕÂ</a> <a href="shenyin/14.mp3" class="STYLE6">µÚÊ®ËÄÕÂ</a> <a href="shenyin/15.mp3" class="STYLE6">µÚÊ®ÎåÕÂ</a> <a href="shenyin/16.mp3" class="STYLE6">µÚÊ®ÁùÕÂ</a> <a href="shenyin/17.mp3" class="STYLE6">µÚÊ®ÆßÕÂ</a> <a href="shenyin/18.mp3" class="STYLE6">µÚÊ®°ËÕÂ</a></p>
+		<p class="STYLE7"><a href="shenyin/19.mp3" class="STYLE6">µÚÊ®¾ÅÕÂ</a> <a href="shenyin/20.mp3" class="STYLE6">µÚ¶şÊ®ÕÂ</a> <a href="shenyin/21.mp3" class="STYLE6">µÚ¶şÊ®Ò»ÕÂ</a> <a href="shenyin/22.mp3" class="STYLE6">µÚ¶şÊ®¶şÕÂ</a> <a href="shenyin/23.mp3" class="STYLE6">µÚ¶şÊ®ÈıÕÂ</a> <a href="shenyin/24.mp3" class="STYLE6">µÚ¶şÊ®ËÄÕÂ</a><a href="shenyin/25.mp3" class="STYLE6"> µÚ¶şÊ®ÎåÕÂ</a></p>
+		<p class="STYLE7"><a href="shenyin/26.mp3" class="STYLE6">µÚ¶şÊ®ÁùÕÂ</a> <a href="shenyin/27.mp3" class="STYLE6">µÚ¶şÊ®ÆßÕÂ</a> <a href="shenyin/28.mp3" class="STYLE6">µÚ¶şÊ®°ËÕÂ</a> <a href="shenyin/29.mp3" class="STYLE6">µÚ¶şÊ®¾ÅÕÂ</a> <a href="shenyin/30.mp3" class="STYLE6">µÚÈıÊ®ÕÂ</a> <a href="shenyin/31.mp3" class="STYLE6">µÚÈıÊ®Ò»ÕÂ</a> <a href="shenyin/32.mp3" class="STYLE6">µÚÈıÊ®¶şÕÂ</a></p>
+		<p class="STYLE7"><a href="shenyin/33.mp3" class="STYLE6">µÚÈıÊ®ÈıÕÂ</a> <a href="shenyin/34.mp3" class="STYLE6">µÚÈıÊ®ËÄÕÂ</a> <a href="shenyin/35.mp3" class="STYLE6">µÚÈıÊ®ÎåÕÂ</a> <a href="shenyin/36.mp3" class="STYLE6">µÚÈıÊ®ÁùÕÂ</a> <a href="shenyin/37.mp3" class="STYLE6">µÚÈıÊ®ÆßÕÂ</a> <a href="shenyin/38.mp3" class="STYLE6">µÚÈıÊ®°ËÕÂ</a></p>
+		<p class="STYLE7"><a href="shenyin/39.mp3" class="STYLE6">µÚÈıÊ®¾ÅÕÂ</a> <a href="shenyin/40.mp3" class="STYLE6">µÚËÄÊ®ÕÂ</a> <a href="shenyin/41.mp3" class="STYLE6">µÚËÄÊ®Ò»ÕÂ</a> <a href="shenyin/42.mp3" class="STYLE6">µÚËÄÊ®¶şÕÂ</a> <a href="shenyin/43.mp3" class="STYLE6">µÚËÄÊ®ÈıÕÂ</a> <a href="shenyin/44.mp3" class="STYLE6">µÚËÄÊ®ËÄÕÂ</a> <a href="shenyin/45.mp3" class="STYLE6">µÚËÄÊ®ÎåÕÂ</a></p>
+		<p class="STYLE7"><a href="shenyin/46.mp3" class="STYLE6">µÚËÄÊ®ÁùÕÂ</a> <a href="shenyin/47.mp3" class="STYLE6">µÚËÄÊ®ÆßÕÂ</a> <a href="shenyin/48.mp3" class="STYLE6">µÚËÄÊ®°ËÕÂ</a> <a href="shenyin/49.mp3" class="STYLE6">µÚËÄÊ®¾ÅÕÂ</a> <a href="shenyin/50.mp3" class="STYLE6">µÚÎåÊ®ÕÂ</a></p>
+		<p class="STYLE5">&nbsp;</p>
+		</td>
+		</tr>
+	</table>
+	&nbsp;<br />	</td>
+	<td width="42">&nbsp;</td>
+	<td width="15">&nbsp;</td>
+	</tr>
+
+	<tr bgcolor="#D3DCE6">
+	<td colspan="6"><img src="mm_spacer.gif" alt="" width="1" height="1" border="0" /></td>
+	</tr>
+
+	<tr>
+	<td width="61">&nbsp;</td>
+	<td width="207">&nbsp;</td>
+	<td width="50">&nbsp;</td>
+	<td width="651">&nbsp;</td>
+	<td width="42">&nbsp;</td>
+	<td width="15">&nbsp;</td>
+	</tr>
+</table>
 </body>
 </html>
